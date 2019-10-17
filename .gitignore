@@ -1,0 +1,5 @@
+template
+build
+.envrc
+*.code-workspace
+node_modules
