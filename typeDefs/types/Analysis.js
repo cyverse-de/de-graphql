@@ -25,6 +25,22 @@ const analysisType = gql`
         updates: [AnalysisStepUpdate]
     }
 
+    type AnalysisParameterValue {
+        value: JSON
+    }
+
+    type AnalysisParameter {
+        param_type: String
+        param_id: String
+        info_type: String
+        is_default_value: Boolean
+        param_name: String
+        parameter_value: AnalysisParameterValue
+        is_visible: Boolean
+        full_param_id: String
+        data_format: String
+    }
+
     type Analysis {
         id: String
         name: String
@@ -42,6 +58,7 @@ const analysisType = gql`
         notify: Boolean
         resultfolderid: String
         steps: [AnalysisStep]
+        parameters: [AnalysisParameter]
     }
 `;
 

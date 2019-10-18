@@ -76,6 +76,10 @@ const resolvers = {
         steps: async (analysis, _args, { dataSources }) => {
             return dataSources.appsAPI.getAnalysisSteps(analysis.username, analysis.id);
         },
+
+        parameters: async (analysis, _args, { dataSources }) => {
+            return dataSources.appsAPI.getAnalysisParameters(analysis.username, analysis.id);
+        }
     }
 };
     
