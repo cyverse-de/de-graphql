@@ -1,7 +1,7 @@
-const { userType, appType, analysisType } = require('./types');
+const { userType, appType, analysisType, toolType } = require('./types');
 const { query } = require('./query');
 
-const typeDefs = [query, userType, appType, analysisType];
+const typeDefs = [query, userType, appType, analysisType, toolType];
 
 module.exports = {
     typeDefs,

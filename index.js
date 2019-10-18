@@ -66,6 +66,10 @@ const resolvers = {
         analyses: async (user, _args, { dataSources }) => {
             return dataSources.appsAPI.getAnalyses(user.username);
         },
+
+        tools: async (user, _args, { dataSources }) => {
+            return dataSources.appsAPI.getTools(user.username);
+        }
     },
 
     Analysis: {

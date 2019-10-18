@@ -48,6 +48,9 @@ const userType = gql`
 
         """The list of Analyses associated with the user."""
         analyses: [Analysis]
+
+        """List of tools accessible to the user."""
+        tools: [Tool]
     }
 
     type Workspace {

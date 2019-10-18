@@ -53,6 +53,11 @@ class AppsAPI extends RESTDataSource {
         return newData;
     }
 
+    async getTools(username) {
+        const data = await this.get(`tools?user=${username}`);
+        return data.tools;
+    }
+
     async getAppPermissions(username, appID, systemID) {
         const data = await this.post(
             `apps/permission-lister?user=${username}`,
