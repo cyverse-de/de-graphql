@@ -20,9 +20,13 @@ const resolvers = {
         appPermissions: async (_source, { username, appID, systemID}, { dataSources }) => {
             return await dataSources.appsAPI.getAppPermissions(username, appID, systemID);
         },
-        
+
         analysis: async (_source, { username, analysisID }, { dataSources }) => {
             return await dataSources.appsAPI.getAnalysis(username, analysisID);
+        },
+
+        app: async (_source, { username, appID, systemID }, { dataSources }) => {
+            return await dataSources.appsAPI.getApp(username, appID, systemID);
         }
     },
 

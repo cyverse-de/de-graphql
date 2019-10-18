@@ -28,10 +28,10 @@ const appType = gql`
     }
 
     type AppRequirements {
-        min_cpu_cores: Int
+        min_cpu_cores: Float
         min_memory_limit: BigInt
         min_disk_space: BigInt
-        max_cpu_cores: Int
+        max_cpu_cores: Float
         memory_limit: BigInt
         step_number: Int
     }
