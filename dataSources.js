@@ -52,6 +52,31 @@ class AppsAPI extends RESTDataSource {
         const { 'user_id': _, ...newData } = data;
         return newData;
     }
+
+    async getAppPermissions(username, appID, systemID) {
+        const data = await this.post(
+            `apps/permission-lister?user=${username}`,
+            {
+                'apps' : [
+                    {
+                        'system_id' : systemID,
+                        'app_id': appID,
+                    },
+                ],
+            },
+        )
+        return data.apps[0].permissions;
+    }
+
+    async getAnalyses(username) {
+        const data = await this.get(`analyses?user=${username}`);
+        return data.analyses;
+    }
+
+    async getApp(username, appID, systemID) {
+        username = username.replace("@iplantcollaborative.org", "")
+        return await this.get(`apps/${systemID}/${appID}?user=${username}`);
+    }
 }
 
 class UserInfoAPI extends RESTDataSource {
