@@ -26,13 +26,13 @@ const userType = gql`
         source_id: String
 
         """A JSON encoded string containing the layout settings."""
-        session: String
+        session: JSON
 
         """A JSON encoded string containing the user's saved searches."""
-        saved_searches: String
+        saved_searches: JSON
 
         """A JSON encoded string containing the user's preferences."""
-        preferences: String
+        preferences: JSON
 
         """The user's workspace information."""
         workspace: Workspace

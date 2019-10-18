@@ -86,15 +86,18 @@ class UserInfoAPI extends RESTDataSource {
     }
 
     async getSession(username) {
-        return await this.get(`sessions/${username}@iplantcollaborative.org`);
+        const data = await this.get(`sessions/${username}@iplantcollaborative.org`);
+        return JSON.parse(data);
     }
 
     async getSavedSearches(username) {
-        return await this.get(`searches/${username}@iplantcollaborative.org`);
+        const data = await this.get(`searches/${username}@iplantcollaborative.org`);
+        return JSON.parse(data);
     }
 
     async getPreferences(username) {
-        return await this.get(`preferences/${username}@iplantcollaborative.org`);
+        const data = await this.get(`preferences/${username}@iplantcollaborative.org`);
+        return JSON.parse(data);
     }
 }
 
