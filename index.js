@@ -16,11 +16,14 @@ const resolvers = {
         user: async (_source, { username }, { dataSources }) => {
             return dataSources.functionAPI.getUserInfo(username);
         },
+
         appPermissions: async (_source, { username, appID, systemID}, { dataSources }) => {
-            const data = await dataSources.appsAPI.getAppPermissions(username, appID, systemID);
-            console.log(`permissions: ${data}`);
-            return data;
+            return await dataSources.appsAPI.getAppPermissions(username, appID, systemID);
         },
+        
+        analysis: async (_source, { username, analysisID }, { dataSources }) => {
+            return await dataSources.appsAPI.getAnalysis(username, analysisID);
+        }
     },
 
     User: {
@@ -64,7 +67,11 @@ const resolvers = {
     Analysis: {
         app: async (analysis, _args, { dataSources }) => {
             return dataSources.appsAPI.getApp(analysis.username, analysis.app_id, analysis.system_id)
-        }
+        },
+
+        steps: async (analysis, _args, { dataSources }) => {
+            return dataSources.appsAPI.getAnalysisSteps(analysis.username, analysis.id);
+        },
     }
 };
     

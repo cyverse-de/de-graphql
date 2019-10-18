@@ -73,6 +73,18 @@ class AppsAPI extends RESTDataSource {
         return data.analyses;
     }
 
+    async getAnalysis(username, analysisID) {
+        const filter = JSON.stringify([{'field':'id', 'value':analysisID}])
+        const data = await this.get(`analyses?user=${username}&filter=${filter}`);
+        return data.analyses[0];
+    }
+
+    async getAnalysisSteps(username, analysisID) {
+        username = username.replace("@iplantcollaborative.org", "")
+        const data = await this.get(`analyses/${analysisID}/history?user=${username}`);
+        return data.steps;
+    }
+
     async getApp(username, appID, systemID) {
         username = username.replace("@iplantcollaborative.org", "")
         return await this.get(`apps/${systemID}/${appID}?user=${username}`);
