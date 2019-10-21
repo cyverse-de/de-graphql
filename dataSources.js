@@ -138,11 +138,25 @@ class UserInfoAPI extends RESTDataSource {
 const lookupsByStatusQuery = `
     SELECT jobs.id,
            users.username,
-           jobs.status
+           jobs.status,
+           jobs.job_name AS name,
+           jobs.job_description AS description,
+           jobs.start_date,
+           jobs.end_date,
+           jobs.result_folder_path AS resultfolderid,
+           jobs.app_id,
+           jobs.app_name,
+           jobs.app_description,
+           job_types.name AS type,
+           job_types.system_id,
+           jobs.planned_end_date,
+           jobs.subdomain,
+           jobs.notify,
+           jobs.deleted
       FROM jobs
       JOIN users ON users.id = jobs.user_id
+      JOIN job_types ON job_types.id = jobs.job_type_id
      WHERE jobs.status = $1
-       AND jobs.deleted = false
 `
 
 class PGDataSource extends DataSource {

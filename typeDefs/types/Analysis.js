@@ -60,6 +60,26 @@ const analysisType = gql`
         steps: [AnalysisStep]
         parameters: [AnalysisParameter]
     }
+
+    type AnalysisListingEntry {
+        id: String
+        username: String
+        status: String
+        name: String
+        description: String
+        startdate: String
+        enddate: String
+        resultfolderid: String
+        app_id: String
+        app_name: String
+        app_description: String
+        type: String
+        system_id: String
+        planned_end_date: String
+        subdomain: String
+        notify: Boolean
+        deleted: Boolean
+    }
 `;
 
 module.exports = {

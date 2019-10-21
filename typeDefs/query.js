@@ -8,7 +8,9 @@ const query = gql`
         
         analysis(username: String, analysisID: String): Analysis
 
-        analysesByStatus(status: String): [String]
+        analysesByStatus(status: String): [AnalysisListingEntry]
+
+        viceAnalysesByStatus(status: String): [AnalysisListingEntry]
 
         app(username: String, appID: String, systemID: String): App
     }

@@ -25,11 +25,10 @@ const resolvers = {
         },
 
         analysesByStatus: async (_source, { status }, { dataSources }) => {
-            return _.map(
-                await dataSources.pgAPI.analysisLookupsByStatus(status), 
-                ({id}) => id
-            );
+            return await dataSources.pgAPI.analysisLookupsByStatus(status);
         },
+
+
     },
 
     User: {
