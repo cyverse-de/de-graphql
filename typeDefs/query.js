@@ -10,8 +10,6 @@ const query = gql`
 
         analysesByStatus(status: String): [AnalysisListingEntry]
 
-        viceAnalysesByStatus(status: String): [AnalysisListingEntry]
-
         app(username: String, appID: String, systemID: String): App
     }
 `;
