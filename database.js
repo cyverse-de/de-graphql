@@ -1,7 +1,5 @@
 const { Pool } = require('pg');
 
-console.log(`DE_DB_URL: ${process.env.DE_DB_URL}`);
-
 // Uses the environment variabled supported by 'pg' to configure the pool.
 const pool = new Pool({
     connectionString: process.env.DE_DB_URL,
