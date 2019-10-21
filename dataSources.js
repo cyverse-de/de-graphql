@@ -1,4 +1,6 @@
 const { RESTDataSource } = require('apollo-datasource-rest');
+const { DataSource } = require('apollo-datasource');
+const { query } = require('./database');
 
 class FunctionAPI extends RESTDataSource {
     constructor() {
@@ -28,37 +30,44 @@ class AppsAPI extends RESTDataSource {
     }
 
     async getUserInfo(username) {
+        username = username.replace("@iplantcollaborative.org", "")
         const data = await this.get(`users/authenticated?user=${username}`);
         return data.id;
     }
 
     async getUserWebhooks(username) {
+        username = username.replace("@iplantcollaborative.org", "")
         const data = await this.get(`webhooks?user=${username}`);
         return data.webhooks;
     }
 
     async getAccessibleApps(username) {
+        username = username.replace("@iplantcollaborative.org", "")
         const data = await this.get(`apps?user=${username}`);
         return data.apps;
     }
 
     async getSystemIDs(username) {
+        username = username.replace("@iplantcollaborative.org", "")
         const data = await this.get(`bootstrap?user=${username}`);
         return data.system_ids;
     }
 
     async getWorkspace(username) {
+        username = username.replace("@iplantcollaborative.org", "")
         const data = await this.get(`workspaces?user=${username}`);
         const { 'user_id': _, ...newData } = data;
         return newData;
     }
 
     async getTools(username) {
+        username = username.replace("@iplantcollaborative.org", "")
         const data = await this.get(`tools?user=${username}`);
         return data.tools;
     }
 
     async getAppPermissions(username, appID, systemID) {
+        username = username.replace("@iplantcollaborative.org", "")
         const data = await this.post(
             `apps/permission-lister?user=${username}`,
             {
@@ -74,11 +83,13 @@ class AppsAPI extends RESTDataSource {
     }
 
     async getAnalyses(username) {
+        username = username.replace("@iplantcollaborative.org", "")
         const data = await this.get(`analyses?user=${username}`);
         return data.analyses;
     }
 
     async getAnalysis(username, analysisID) {
+        username = username.replace("@iplantcollaborative.org", "")
         const filter = JSON.stringify([{'field':'id', 'value':analysisID}])
         const data = await this.get(`analyses?user=${username}&filter=${filter}`);
         return data.analyses[0];
@@ -124,8 +135,28 @@ class UserInfoAPI extends RESTDataSource {
     }
 }
 
+const lookupsByStatusQuery = `
+    SELECT jobs.id,
+           users.username,
+           jobs.status
+      FROM jobs
+      JOIN users ON users.id = jobs.user_id
+     WHERE jobs.status = $1
+       AND jobs.deleted = false
+`
+
+class PGDataSource extends DataSource {
+    async analysisLookupsByStatus(status) {
+        const normalizedStatus = status.charAt(0).toUpperCase() + status.toLowerCase().slice(1);
+        const results = await query(lookupsByStatusQuery, [normalizedStatus]);
+        return results.rows;
+    }
+}
+
+
 module.exports = {
     FunctionAPI,
     AppsAPI,
     UserInfoAPI,
+    PGDataSource,
 }

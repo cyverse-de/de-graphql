@@ -8,6 +8,8 @@ const query = gql`
         
         analysis(username: String, analysisID: String): Analysis
 
+        analysesByStatus(status: String): [String]
+
         app(username: String, appID: String, systemID: String): App
     }
 `;

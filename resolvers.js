@@ -1,5 +1,6 @@
 const GraphQLJSON = require('graphql-type-json');
 const BigInt = require('graphql-bigint');
+const { _ } = require('lodash');
 
 const resolvers = {
     JSON: GraphQLJSON,
@@ -21,7 +22,14 @@ const resolvers = {
 
         app: async (_source, { username, appID, systemID }, { dataSources }) => {
             return await dataSources.appsAPI.getApp(username, appID, systemID);
-        }
+        },
+
+        analysesByStatus: async (_source, { status }, { dataSources }) => {
+            return _.map(
+                await dataSources.pgAPI.analysisLookupsByStatus(status), 
+                ({id}) => id
+            );
+        },
     },
 
     User: {
