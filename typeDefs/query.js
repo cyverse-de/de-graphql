@@ -10,6 +10,8 @@ const query = gql`
 
         analysesByStatus(status: String): [AnalysisListingEntry]
 
+        analysisByExternalID(externalID: String): AnalysisListingEntry
+
         app(username: String, appID: String, systemID: String): App
     }
 `;

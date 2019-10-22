@@ -28,6 +28,10 @@ const resolvers = {
             return await dataSources.pgAPI.analysisLookupsByStatus(status);
         },
 
+        analysisByExternalID: async (_source, { externalID }, { dataSources }) => {
+            return await dataSources.pgAPI.analysisLookupsByExternalID(externalID);
+        }
+
 
     },
 
