@@ -30,9 +30,11 @@ const resolvers = {
 
         analysisByExternalID: async (_source, { externalID }, { dataSources }) => {
             return await dataSources.pgAPI.analysisLookupsByExternalID(externalID);
-        }
+        },
 
-
+        analysisByID: async (_source, { analysisID }, { dataSources }) => {
+            return await dataSources.pgAPI.analysisLookupsByID(analysisID);
+        },
     },
 
     User: {

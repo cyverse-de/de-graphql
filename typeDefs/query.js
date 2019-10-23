@@ -12,6 +12,8 @@ const query = gql`
 
         analysisByExternalID(externalID: String): AnalysisListingEntry
 
+        analysisByID(analysisID: String): AnalysisListingEntry
+
         app(username: String, appID: String, systemID: String): App
     }
 `;
