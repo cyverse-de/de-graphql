@@ -55,6 +55,7 @@ const analysisType = gql`
         name: String
         notify: Boolean
         parameters: [AnalysisParameter]
+        permissions: [Permission]
         parent_id: String
         planned_end_date: String
         resultfolderid: String

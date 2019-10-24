@@ -90,6 +90,10 @@ const resolvers = {
 
         parameters: async (analysis, _args, { dataSources }) => {
             return dataSources.appsService.getAnalysisParameters(analysis.username, analysis.id);
+        },
+
+        permissions: async (analysis, _args, { dataSources }) => {
+            return dataSources.permissionsService.getAnalysisPermissions(analysis.id);
         }
     }
 };
