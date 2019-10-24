@@ -9,87 +9,87 @@ const resolvers = {
 
     Query: {
         user: async (_source, { username }, { dataSources }) => {
-            return dataSources.functionAPI.getUserInfo(username);
+            return dataSources.functions.getUserInfo(username);
         },
 
         appPermissions: async (_source, { username, appID, systemID}, { dataSources }) => {
-            return await dataSources.appsAPI.getAppPermissions(username, appID, systemID);
+            return await dataSources.appsService.getAppPermissions(username, appID, systemID);
         },
 
         analysis: async (_source, { username, analysisID }, { dataSources }) => {
-            return await dataSources.appsAPI.getAnalysis(username, analysisID);
+            return await dataSources.deDatabase.analysisLookupsByIDAndUser(username, analysisID);
         },
 
         app: async (_source, { username, appID, systemID }, { dataSources }) => {
-            return await dataSources.appsAPI.getApp(username, appID, systemID);
+            return await dataSources.appsService.getApp(username, appID, systemID);
         },
 
         analysesByStatus: async (_source, { status }, { dataSources }) => {
-            return await dataSources.pgAPI.analysisLookupsByStatus(status);
+            return await dataSources.deDatabase.analysisLookupsByStatus(status);
         },
 
         analysisByExternalID: async (_source, { externalID }, { dataSources }) => {
-            return await dataSources.pgAPI.analysisLookupsByExternalID(externalID);
+            return await dataSources.deDatabase.analysisLookupsByExternalID(externalID);
         },
 
         analysisByID: async (_source, { analysisID }, { dataSources }) => {
-            return await dataSources.pgAPI.analysisLookupsByID(analysisID);
+            return await dataSources.deDatabase.analysisLookupsByID(analysisID);
         },
     },
 
     User: {
         id: async (user, _args, { dataSources }) => {
-            return dataSources.appsAPI.getUserInfo(user.username)
+            return dataSources.appsService.getUserInfo(user.username)
         },
 
         saved_searches: async (user, _args, { dataSources }) => {
-            return dataSources.userInfoAPI.getSavedSearches(user.username);
+            return dataSources.userInfoService.getSavedSearches(user.username);
         },
 
         session: async (user, _args, { dataSources }) => {
-            return dataSources.userInfoAPI.getSession(user.username);
+            return dataSources.userInfoService.getSession(user.username);
         },
 
         preferences: async (user, _args, { dataSources }) => {
-            return dataSources.userInfoAPI.getPreferences(user.username);
+            return dataSources.userInfoService.getPreferences(user.username);
         },
 
         webhooks: async (user, _args, { dataSources }) => {
-            return dataSources.appsAPI.getUserWebhooks(user.username);
+            return dataSources.appsService.getUserWebhooks(user.username);
         },
 
         accessible_apps: async (user, _args, { dataSources }) => {
-            return dataSources.appsAPI.getAccessibleApps(user.username);
+            return dataSources.appsService.getAccessibleApps(user.username);
         },
 
         workspace: async (user, _args, { dataSources }) => {
-            return dataSources.appsAPI.getWorkspace(user.username);
+            return dataSources.appsService.getWorkspace(user.username);
         },
 
         system_ids: async (user, _args, { dataSources }) => {
-            return dataSources.appsAPI.getSystemIDs(user.username);
+            return dataSources.appsService.getSystemIDs(user.username);
         },
 
         analyses: async (user, _args, { dataSources }) => {
-            return dataSources.appsAPI.getAnalyses(user.username);
+            return dataSources.appsService.getAnalyses(user.username);
         },
 
         tools: async (user, _args, { dataSources }) => {
-            return dataSources.appsAPI.getTools(user.username);
+            return dataSources.appsService.getTools(user.username);
         }
     },
 
     Analysis: {
         app: async (analysis, _args, { dataSources }) => {
-            return dataSources.appsAPI.getApp(analysis.username, analysis.app_id, analysis.system_id)
+            return dataSources.appsService.getApp(analysis.username, analysis.app_id, analysis.system_id)
         },
 
         steps: async (analysis, _args, { dataSources }) => {
-            return dataSources.appsAPI.getAnalysisSteps(analysis.username, analysis.id);
+            return dataSources.appsService.getAnalysisSteps(analysis.username, analysis.id);
         },
 
         parameters: async (analysis, _args, { dataSources }) => {
-            return dataSources.appsAPI.getAnalysisParameters(analysis.username, analysis.id);
+            return dataSources.appsService.getAnalysisParameters(analysis.username, analysis.id);
         }
     }
 };

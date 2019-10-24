@@ -43,22 +43,28 @@ const analysisType = gql`
 
     type Analysis {
         id: String
-        name: String
-        description: String
-        can_share: Boolean
+
         app: App
-        batch_status: AnalysisBatchStatus
         batch: Boolean
-        startdate: String
+        batch_status: AnalysisBatchStatus
+        can_share: Boolean
+        deleted: Boolean
+        description: String
         enddate: String
-        status: String
-        parent_id: String
         interactive_urls: [String]
-        wiki_url: String
+        name: String
         notify: Boolean
-        resultfolderid: String
-        steps: [AnalysisStep]
         parameters: [AnalysisParameter]
+        parent_id: String
+        planned_end_date: String
+        resultfolderid: String
+        startdate: String
+        status: String
+        steps: [AnalysisStep]
+        subdomain: String
+        system_id: String
+        type: String
+        wiki_url: String
     }
 
     type AnalysisListingEntry {
