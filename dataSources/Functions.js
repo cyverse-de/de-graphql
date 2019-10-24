@@ -1,6 +1,6 @@
 const { RESTDataSource } = require('apollo-datasource-rest');
 
-class FunctionAPI extends RESTDataSource {
+class Functions extends RESTDataSource {
     constructor() {
         super();
         this.baseURL = process.env.GATEWAY;
@@ -22,5 +22,5 @@ class FunctionAPI extends RESTDataSource {
 }
 
 module.exports = {
-    FunctionAPI,
+    Functions,
 };
