@@ -7,9 +7,9 @@ SELECT jobs.id,
        jobs.status,
        jobs.job_name AS name,
        jobs.job_description AS description,
-       jobs.start_date AS startdate,
-       jobs.end_date AS enddate,
-       jobs.result_folder_path AS resultfolderid,
+       jobs.start_date,
+       jobs.end_date,
+       jobs.result_folder_path ,
        jobs.app_id,
        jobs.app_name,
        jobs.app_description,
@@ -46,6 +46,18 @@ ${analysisSelectBase}
    AND users.username = $2
 `
 
+const lookupsByUserQuery = `
+${analysisSelectBase}
+ WHERE users.username = $1
+`
+
+const fixUsername = (username) => {
+    if (!username.endsWith("@iplantcollaborative.org")) {
+        username = username.concat("@iplantcollaborative.org")
+    }
+    return username
+}
+
 class DEDatabase extends DataSource {
     async analysisLookupsByStatus(status) {
         const normalizedStatus = status.charAt(0).toUpperCase() + status.toLowerCase().slice(1);
@@ -64,8 +76,15 @@ class DEDatabase extends DataSource {
     }
 
     async analysisLookupsByIDAndUser(username, analysisID) {
+        username = fixUsername(username);
         const results = await query(lookupsByIDAndUserQuery, [analysisID, username]);
         return results.rows[0];
+    }
+
+    async analysesLookupsByUser(username) {
+        username = fixUsername(username);
+        const results = await query(lookupsByUserQuery, [username]);
+        return results.rows;
     }
 }
 

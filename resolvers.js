@@ -71,7 +71,7 @@ const resolvers = {
         },
 
         analyses: async (user, _args, { dataSources }) => {
-            return dataSources.appsService.getAnalyses(user.username);
+            return dataSources.deDatabase.analysesLookupsByUser(user.username);
         },
 
         tools: async (user, _args, { dataSources }) => {

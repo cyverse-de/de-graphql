@@ -8,11 +8,11 @@ const query = gql`
         
         analysis(username: String, analysisID: String): Analysis
 
-        analysesByStatus(status: String): [AnalysisListingEntry]
+        analysesByStatus(status: String): [Analysis]
 
-        analysisByExternalID(externalID: String): AnalysisListingEntry
+        analysisByExternalID(externalID: String): Analysis
 
-        analysisByID(analysisID: String): AnalysisListingEntry
+        analysisByID(analysisID: String): Analysis
 
         app(username: String, appID: String, systemID: String): App
     }
