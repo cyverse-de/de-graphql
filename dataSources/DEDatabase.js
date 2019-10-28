@@ -90,6 +90,25 @@ SELECT p.id,
  WHERE apps.id = $1
 `
 
+// Query to get the app references for an app.
+const appReferencesQuery = `
+SELECT r.id,
+       r.reference_text
+  FROM app_references r
+ WHERE app_id = $1
+`
+
+// Query to get the app documentation
+const appDocsQuery = `
+SELECT d.value,
+       d.created_on,
+       d.modified_on,
+       d.created_by,
+       d.modified_by
+  FROM app_documentation d
+ WHERE d.app_id = $1
+`
+
 // Adds '@iplantcollaborative.org' to the username if it's not already
 // present. The database uses <user>@iplantcollaborative.org, while
 // most of the services only need the <user> part.
@@ -152,6 +171,28 @@ class DEDatabase extends DataSource {
     async appParametersByID(appID) {
         const results =  await query(appParametersQuery, [appID]);
         return results.rows;
+    }
+
+    // Returns a list of app references for the app indicated by the UUID passed in. Returns an empty
+    // list if nothing is found. Check the appReferencesQuery string to find the names of the keys in
+    // objects returned. The column names become the field names in the objects.
+    async appReferencesByID(appID) {
+        const results = await query(appReferencesQuery, [appID]);
+        return results.rows;
+    }
+
+    // Returns an app documentation object for the app specified by the UUID passed in. Returns a null
+    // if nothing is found. Check the appDocsQuery string to find the field names for the object, the
+    // column names are converted to the field names.
+    async appDocsByID(appID) {
+        const results = await query(appDocsQuery, [appID]);
+        return results.rows[0] || null;
+    }
+
+    // Returns the username associated with the user UUID passed in. Returns null if nothing is found.
+    async getUsername(userID) {
+        const results = await query(`SELECT username FROM users WHERE id = $1`, [userID]);
+        return results.rows[0]["username"] || null;
     }
 }
 

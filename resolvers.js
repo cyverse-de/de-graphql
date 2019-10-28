@@ -104,8 +104,36 @@ const resolvers = {
 
         permissions: async (app, _args, { dataSources }) => {
             return dataSources.permissionsService.getAppPermissions(app.id);
+        },
+
+        documentation: async (app, _args, { dataSources }) => {
+            return dataSources.deDatabase.appDocsByID(app.id);
+        },
+
+        references: async (app, _args, { dataSources }) => {
+            return dataSources.deDatabase.appReferencesByID(app.id);
         }
     },
+
+    AppDocumentation: {
+        created_by: async (doc, _args, { dataSources }) => {
+            const username = await dataSources.deDatabase.getUsername(doc.created_by);
+            if (username !== null) {
+                return dataSources.functions.getUserInfo(username);
+            } else {
+                return null;
+            }
+        },
+
+        modified_by: async (doc, _args, { dataSources }) => {
+            const username = await dataSources.deDatabase.getUsername(doc.modified_by);
+            if (username !== null) {
+                return dataSources.functions.getUserInfo(username);
+            } else {
+                return null;
+            }
+        },
+    }
 };
 
 module.exports = {

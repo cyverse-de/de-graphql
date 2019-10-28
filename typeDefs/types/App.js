@@ -53,6 +53,19 @@ const appType = gql`
         external_app_id: String
     }
 
+    type AppReference {
+        id: String
+        reference_text: String
+    }
+
+    type AppDocumentation {
+        value: String
+        created_on: String
+        modified_on: String
+        created_by: User
+        modified_by: User
+    }
+
     type App {
         id: String
 
@@ -65,6 +78,7 @@ const appType = gql`
         deleted: Boolean
         description: String
         disabled: Boolean
+        documentation: AppDocumentation
         edited_date: String
 
         """Here lies a recursive data structure. Beware."""
@@ -82,6 +96,7 @@ const appType = gql`
         permissions: [Permission]
         pipeline_eligibility: AppPipelineEligibility
         rating: AppRating
+        references: [AppReference]
         requirements: [AppRequirements]
         step_count: Int
         system_id: String
