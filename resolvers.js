@@ -95,7 +95,17 @@ const resolvers = {
         permissions: async (analysis, _args, { dataSources }) => {
             return dataSources.permissionsService.getAnalysisPermissions(analysis.id);
         }
-    }
+    },
+
+    App: {
+        parameters: async (app, _args, { dataSources }) => {
+            return dataSources.deDatabase.appParametersByID(app.id);
+        },
+
+        permissions: async (app, _args, { dataSources }) => {
+            return dataSources.permissionsService.getAppPermissions(app.id);
+        }
+    },
 };
 
 module.exports = {

@@ -64,6 +64,32 @@ ${analysisSelectBase}
  WHERE users.username = $1
 `
 
+// Query to get the parameters for an app.
+const appParametersQuery = `
+SELECT p.id,
+       p.name,
+       p.description,
+       p.label,
+       (SELECT pv.value AS default_value
+          FROM parameter_values pv
+         WHERE pv.parameter_id = p.id
+           AND pv.is_default = true) AS default_value,
+       p.is_visible,
+       p.ordering,
+       p.parameter_type AS type,
+       p.value_type,
+       p.is_implicit,
+       p.info_type,
+       p.data_format,
+       s.id AS step_id,
+       t.external_app_id
+  FROM task_param_listing p
+  JOIN app_steps s ON s.task_id = p.task_id
+  JOIN tasks t ON p.task_id = t.id
+  JOIN apps ON apps.id = s.app_id
+ WHERE apps.id = $1
+`
+
 // Adds '@iplantcollaborative.org' to the username if it's not already
 // present. The database uses <user>@iplantcollaborative.org, while
 // most of the services only need the <user> part.
@@ -117,6 +143,14 @@ class DEDatabase extends DataSource {
     async analysesLookupsByUser(username) {
         username = fixUsername(username);
         const results = await query(lookupsByUserQuery, [username]);
+        return results.rows;
+    }
+
+    // Returns a list of app parameters for the app indicated by the UUID passed in. Returns an empty
+    // list of nothing is found. Check the appParametersQuery string to see the name of the keys in the
+    // objects returned, the column names become of the field names in the objects.
+    async appParametersByID(appID) {
+        const results =  await query(appParametersQuery, [appID]);
         return results.rows;
     }
 }

@@ -36,6 +36,23 @@ const appType = gql`
         step_number: Int
     }
 
+    type AppParameter {
+        id: String
+        name: String
+        description: String
+        label: String
+        default_value: String
+        is_visible: Boolean
+        ordering: Int
+        omit_if_blank: Boolean
+        type: String
+        value_type: String
+        is_implicit: Boolean
+        info_type: String
+        step_id: String
+        external_app_id: String
+    }
+
     type App {
         id: String
 
@@ -60,7 +77,9 @@ const appType = gql`
         is_public: Boolean
         label: String
         name: String
+        parameters: [AppParameter]
         permission: String
+        permissions: [Permission]
         pipeline_eligibility: AppPipelineEligibility
         rating: AppRating
         requirements: [AppRequirements]
