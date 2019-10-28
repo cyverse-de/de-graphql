@@ -111,7 +111,7 @@ class DEDatabase extends DataSource {
         return results.rows[0] || null;
     }
 
-    // Returns a list of analyes found by the username of the user that launched them. Returns an empty
+    // Returns a list of analyses found by the username of the user that launched them. Returns an empty
     // list if nothing is found. Check the analysisBaseSelect string to see the names of the keys in the 
     // objects returned. The column names become the field names in the objects.
     async analysesLookupsByUser(username) {
