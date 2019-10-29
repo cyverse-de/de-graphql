@@ -5,6 +5,7 @@ const {
     UserInfoService,
     DEDatabase,
     PermissionsService,
+    MetadataDatabase,
  } = require('./dataSources');
 const { typeDefs } = require('./typeDefs');
 const { resolvers } = require('./resolvers');
@@ -19,6 +20,7 @@ const server = new ApolloServer({
             userInfoService: new UserInfoService(),
             deDatabase: new DEDatabase(),
             permissionsService: new PermissionsService(),
+            metadataDatabase: new MetadataDatabase(),
         };
     },
 });

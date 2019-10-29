@@ -70,6 +70,7 @@ const appType = gql`
         id: String
 
         app_type: String
+        avus: [AVU]
         beta: Boolean
         can_favor: Boolean
         can_rate: Boolean

@@ -43,6 +43,7 @@ const analysisType = gql`
 
     type Analysis {
         app: App 
+        avus: [AVU]
         deleted: Boolean
         description: String
         end_date: String

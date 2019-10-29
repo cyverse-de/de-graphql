@@ -3,7 +3,8 @@ const {
     appType, 
     analysisType, 
     toolType,
-    permissionType, 
+    permissionType,
+    AVUType,
 } = require('./types');
 const { query } = require('./query');
 
@@ -13,7 +14,8 @@ const typeDefs = [
     appType, 
     analysisType, 
     toolType, 
-    permissionType
+    permissionType,
+    AVUType,
 ];
 
 module.exports = {

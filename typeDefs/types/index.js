@@ -3,6 +3,7 @@ const { appType } = require("./App");
 const { analysisType } = require("./Analysis");
 const { toolType } = require("./Tool");
 const { permissionType } = require("./Permission")
+const { AVUType } = require('./AVU');
 
 module.exports = {
     userType,
@@ -10,4 +11,5 @@ module.exports = {
     analysisType,
     toolType,
     permissionType,
+    AVUType,
 };

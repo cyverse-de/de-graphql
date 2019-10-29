@@ -1,5 +1,5 @@
 const { DataSource } = require('apollo-datasource');
-const { query } = require('../database');
+const { queryDEDB } = require('../database');
 
 // Common fields and joins for getting information about an analysis
 // from the database.
@@ -127,7 +127,7 @@ class DEDatabase extends DataSource {
     // field names in the objects.
     async analysisLookupsByStatus(status) {
         const normalizedStatus = status.charAt(0).toUpperCase() + status.toLowerCase().slice(1);
-        const results = await query(lookupsByStatusQuery, [normalizedStatus]);
+        const results = await queryDEDB(lookupsByStatusQuery, [normalizedStatus]);
         return results.rows;
     }
 
@@ -135,7 +135,7 @@ class DEDatabase extends DataSource {
     // Check the analysisBaseSelect string to see the names of the keys in the object returned, the
     // column names become the field names in the object.
     async analysisLookupsByExternalID(externalID) {
-        const results = await query(lookupsByExternalIDQuery, [externalID]);
+        const results = await queryDEDB(lookupsByExternalIDQuery, [externalID]);
         return results.rows[0] || null;
     }
 
@@ -143,7 +143,7 @@ class DEDatabase extends DataSource {
     // Check the analysisBaseSelect string to see the names of the keys in the object returned, the
     // column names become the field names in the object.
     async analysisLookupsByID(analysisID) {
-        const results = await query(lookupsByIDQuery, [analysisID]);
+        const results = await queryDEDB(lookupsByIDQuery, [analysisID]);
         return results.rows[0] || null;
     }
 
@@ -152,7 +152,7 @@ class DEDatabase extends DataSource {
     // the names of the keys in the object returned, the column names become the field names in the object.
     async analysisLookupsByIDAndUser(username, analysisID) {
         username = fixUsername(username);
-        const results = await query(lookupsByIDAndUserQuery, [analysisID, username]);
+        const results = await queryDEDB(lookupsByIDAndUserQuery, [analysisID, username]);
         return results.rows[0] || null;
     }
 
@@ -161,7 +161,7 @@ class DEDatabase extends DataSource {
     // objects returned. The column names become the field names in the objects.
     async analysesLookupsByUser(username) {
         username = fixUsername(username);
-        const results = await query(lookupsByUserQuery, [username]);
+        const results = await queryDEDB(lookupsByUserQuery, [username]);
         return results.rows;
     }
 
@@ -169,7 +169,7 @@ class DEDatabase extends DataSource {
     // list of nothing is found. Check the appParametersQuery string to see the name of the keys in the
     // objects returned, the column names become of the field names in the objects.
     async appParametersByID(appID) {
-        const results =  await query(appParametersQuery, [appID]);
+        const results =  await queryDEDB(appParametersQuery, [appID]);
         return results.rows;
     }
 
@@ -177,7 +177,7 @@ class DEDatabase extends DataSource {
     // list if nothing is found. Check the appReferencesQuery string to find the names of the keys in
     // objects returned. The column names become the field names in the objects.
     async appReferencesByID(appID) {
-        const results = await query(appReferencesQuery, [appID]);
+        const results = await queryDEDB(appReferencesQuery, [appID]);
         return results.rows;
     }
 
@@ -185,13 +185,13 @@ class DEDatabase extends DataSource {
     // if nothing is found. Check the appDocsQuery string to find the field names for the object, the
     // column names are converted to the field names.
     async appDocsByID(appID) {
-        const results = await query(appDocsQuery, [appID]);
+        const results = await queryDEDB(appDocsQuery, [appID]);
         return results.rows[0] || null;
     }
 
     // Returns the username associated with the user UUID passed in. Returns null if nothing is found.
     async getUsername(userID) {
-        const results = await query(`SELECT username FROM users WHERE id = $1`, [userID]);
+        const results = await queryDEDB(`SELECT username FROM users WHERE id = $1`, [userID]);
         return results.rows[0]["username"] || null;
     }
 }

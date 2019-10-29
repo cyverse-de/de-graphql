@@ -51,6 +51,9 @@ const userType = gql`
 
         """List of tools accessible to the user."""
         tools: [Tool]
+
+        """List of AVUs associated with the user."""
+        avus: [AVU]
     }
 
     type Workspace {

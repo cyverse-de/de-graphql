@@ -3,6 +3,7 @@ const { UserInfoService } = require('./UserInfoService');
 const { Functions } = require('./Functions');
 const { DEDatabase } = require('./DEDatabase');
 const { PermissionsService } = require('./PermissionsService');
+const { MetadataDatabase } = require('./MetadataDatabase');
 
 module.exports = {
     AppsService,
@@ -10,4 +11,5 @@ module.exports = {
     Functions,
     DEDatabase,
     PermissionsService,
+    MetadataDatabase,
 };

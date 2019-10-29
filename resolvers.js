@@ -76,7 +76,11 @@ const resolvers = {
 
         tools: async (user, _args, { dataSources }) => {
             return dataSources.appsService.getTools(user.username);
-        }
+        },
+
+        avus: async (user, _args, { dataSources }) => {
+            return dataSources.metadataDatabase.getAVUs('user', user.id);
+        },
     },
 
     Analysis: {
@@ -94,7 +98,11 @@ const resolvers = {
 
         permissions: async (analysis, _args, { dataSources }) => {
             return dataSources.permissionsService.getAnalysisPermissions(analysis.id);
-        }
+        },
+
+        avus: async (analysis, _args, { dataSources }) => {
+            return dataSources.metadataDatabase.getAVUs('analysis', analysis.id);
+        },
     },
 
     App: {
@@ -112,7 +120,11 @@ const resolvers = {
 
         references: async (app, _args, { dataSources }) => {
             return dataSources.deDatabase.appReferencesByID(app.id);
-        }
+        },
+
+        avus: async (app, _args, { dataSources }) => {
+            return dataSources.metadataDatabase.getAVUs('app', app.id);
+        },
     },
 
     AppDocumentation: {
@@ -133,7 +145,17 @@ const resolvers = {
                 return null;
             }
         },
-    }
+    },
+
+    AVU: {
+        created_by: async (avu, _args, { dataSources }) => {
+            return dataSources.functions.getUserInfo(avu.created_by);
+        },
+
+        modified_by: async (avu, _args, { dataSources }) => {
+            return dataSources.functions.getUserInfo(avu.modified_by);
+        },
+    },
 };
 
 module.exports = {
