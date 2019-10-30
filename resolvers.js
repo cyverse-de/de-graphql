@@ -35,6 +35,10 @@ const resolvers = {
         analysisByID: async (_source, { analysisID }, { dataSources }) => {
             return await dataSources.deDatabase.analysisLookupsByID(analysisID);
         },
+
+        templates: async (_source, {}, { dataSources }) => {
+            return dataSources.metadataDatabase.getAllTemplates();
+        },
     },
 
     User: {
@@ -154,6 +158,26 @@ const resolvers = {
 
         modified_by: async (avu, _args, { dataSources }) => {
             return dataSources.functions.getUserInfo(avu.modified_by);
+        },
+    },
+
+    Template: {
+        attributes: async (tmpl, _args, { dataSources }) => {
+            return dataSources.metadataDatabase.getTemplateAttributesByID(tmpl.id);
+        },
+    },
+
+    TemplateAttribute: {
+        synonyms: async (attr, _args, { dataSources }) => {
+            return dataSources.metadataDatabase.getAttributeSynonyms(attr.id);
+        },
+
+        enum_values: async (attr, _args, { dataSources }) => {
+            return dataSources.metadataDatabase.getAttributeEnumValues(attr.id);
+        },
+
+        settings: async (attr, _args, { dataSources }) => {
+            return dataSources.metadataDatabase.getAttributeSettings(attr.id);
         },
     },
 };

@@ -5,6 +5,7 @@ const {
     toolType,
     permissionType,
     AVUType,
+    templateType,
 } = require('./types');
 const { query } = require('./query');
 
@@ -16,6 +17,7 @@ const typeDefs = [
     toolType, 
     permissionType,
     AVUType,
+    templateType,
 ];
 
 module.exports = {

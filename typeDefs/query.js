@@ -15,6 +15,8 @@ const query = gql`
         analysisByID(analysisID: String): Analysis
 
         app(username: String, appID: String, systemID: String): App
+
+        templates: [Template]
     }
 `;
 

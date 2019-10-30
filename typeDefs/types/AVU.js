@@ -1,6 +1,7 @@
 const { gql } = require("apollo-server");
 
 const AVUType = gql`
+
     type AVU {
         id: String
         attribute: String
@@ -13,6 +14,7 @@ const AVUType = gql`
         modified_on: String
         modified_by: User
     }
+
 `;
 
 module.exports = {
