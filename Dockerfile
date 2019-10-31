@@ -15,4 +15,4 @@ ENV USER_INFO_URL http://user-info
 
 EXPOSE 4000
 ENTRYPOINT ["node"]
-CMD ["index.js"]
+CMD ["src/index.js"]
