@@ -9,7 +9,9 @@ const resolvers = {
 
     Query: {
         user: async (_source, { username }, { dataSources }) => {
-            return dataSources.functions.getUserInfo(username);
+            var baseInfo = await dataSources.functions.getUserInfo(username);
+            baseInfo["id"] = await dataSources.appsService.getUserInfo(username);
+            return baseInfo;
         },
 
         appPermissions: async (_source, { username, appID, systemID}, { dataSources }) => {
@@ -42,20 +44,20 @@ const resolvers = {
     },
 
     User: {
-        id: async (user, _args, { dataSources }) => {
-            return dataSources.appsService.getUserInfo(user.username)
-        },
+        // id: async (user, _args, { dataSources }) => {
+        //     return dataSources.appsService.getUserInfo(user.username)
+        // },
 
         saved_searches: async (user, _args, { dataSources }) => {
-            return dataSources.userInfoService.getSavedSearches(user.username);
+            return dataSources.deDatabase.getUserSavedSearches(user.id);
         },
 
         session: async (user, _args, { dataSources }) => {
-            return dataSources.userInfoService.getSession(user.username);
+            return dataSources.deDatabase.getUserSession(user.id);
         },
 
         preferences: async (user, _args, { dataSources }) => {
-            return dataSources.userInfoService.getPreferences(user.username);
+            return dataSources.deDatabase.getUserPreferences(user.id);
         },
 
         webhooks: async (user, _args, { dataSources }) => {

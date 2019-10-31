@@ -109,6 +109,12 @@ SELECT d.value,
  WHERE d.app_id = $1
 `
 
+const userPrefsQuery = `
+SELECT p.preferences
+  FROM user_preferences p
+ WHERE p.user_id = $1
+`
+
 // Adds '@iplantcollaborative.org' to the username if it's not already
 // present. The database uses <user>@iplantcollaborative.org, while
 // most of the services only need the <user> part.
@@ -193,6 +199,57 @@ class DEDatabase extends DataSource {
     async getUsername(userID) {
         const results = await queryDEDB(`SELECT username FROM users WHERE id = $1`, [userID]);
         return results.rows[0]["username"] || null;
+    }
+
+    async getUserPreferences(userID) {
+        const results = await queryDEDB(userPrefsQuery, [userID]);
+
+        if (results.rows.length < 1) {
+            return {};
+        }
+
+        const unparsed = results.rows[0]["preferences"] || null;
+        var retval = {};
+
+        if (unparsed !== null) {
+            retval = JSON.parse(unparsed);
+        }
+
+        return retval;
+    }
+
+    async getUserSession(userID) {
+        const results = await queryDEDB('SELECT session FROM user_sessions WHERE id = $1', [userID]);
+
+        if (results.rows.length < 1) {
+            return {};
+        }
+
+        const unparsed = results.rows[0]["session"] || null;
+        var retval = {};
+        
+        if (unparsed !== null) {
+            retval = JSON.parse(unparsed);
+        }
+
+        return retval;
+    }
+
+    async getUserSavedSearches(userID) {
+        const results = await queryDEDB('SELECT saved_searches FROM user_saved_searches WHERE id = $1', [userID]);
+
+        if (results.rows.length < 1) {
+            return {};
+        }
+
+        const unparsed = results.rows[0]["saved_searches"] || null;
+        var retval = {};
+
+        if (unparsed !== null) {
+            retval = JSON.parse(unparsed);
+        }
+
+        return retval;
     }
 }
 
