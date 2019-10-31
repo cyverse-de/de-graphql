@@ -131,6 +131,10 @@ const resolvers = {
         avus: async (app, _args, { dataSources }) => {
             return dataSources.metadataDatabase.getAVUs('app', app.id);
         },
+
+        comments: async (app, _args, { dataSources }) => {
+            return dataSources.metadataDatabase.getComments('app', app.id);
+        },
     },
 
     AppDocumentation: {

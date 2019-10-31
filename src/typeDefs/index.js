@@ -6,6 +6,7 @@ const {
     permissionType,
     AVUType,
     templateType,
+    commentType,
 } = require('./types');
 const { query } = require('./query');
 
@@ -18,6 +19,7 @@ const typeDefs = [
     permissionType,
     AVUType,
     templateType,
+    commentType,
 ];
 
 module.exports = {

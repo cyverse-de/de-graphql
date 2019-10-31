@@ -165,6 +165,22 @@ SELECT a.settings
  WHERE a.id = $1
 `;
 
+const commentsQuery = `
+SELECT id,
+       value,
+       post_time,
+       retracted,
+       retracted_by,
+       deleted,
+       target_id,
+       target_type,
+       owner_id AS owner
+  FROM comments
+ WHERE target_type = $1
+   AND target_id = $2
+ORDER BY post_time DESC
+`;
+
 const valid_target_types = ['analysis', 'app', 'avu', 'file', 'folder', 'user'];
 
 class MetadataDatabase extends DataSource {
@@ -177,6 +193,17 @@ class MetadataDatabase extends DataSource {
         }
 
         const results = await queryMetadataDB(avusQuery, [target_type, target_id]);
+        return results.rows;
+    }
+
+    async getComments(target_type, target_id) {
+        target_type = target_type.toLowerCase();
+
+        if (!valid_target_types.includes(target_type)) {
+            throw `invalid target type: ${target_type}`;
+        }
+
+        const results = await queryMetadataDB(commentsQuery, [target_type, target_id]);
         return results.rows;
     }
 

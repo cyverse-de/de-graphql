@@ -75,6 +75,7 @@ const appType = gql`
         can_favor: Boolean
         can_rate: Boolean
         can_run: Boolean
+        comments: [Comment]
         debug: Boolean
         deleted: Boolean
         description: String
