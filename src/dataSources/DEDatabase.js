@@ -203,7 +203,33 @@ SELECT cs.id,
  WHERE cs.tools_id = $1
 `;
 
-const containerImageByToolsIDQuery = `
+const containerDevicesByContainerIDQuery = `
+SELECT devices.id,
+       devices.host_path,
+       devices.container_path
+  FROM container_devices devices
+ WHERE devices.container_settings_id = $1
+`;
+
+const containerVolumesByContainerIDQuery = `
+SELECT volumes.id,
+       volumes.host_path,
+       volumes.container_path
+  FROM container_volumes volumes
+ WHERE volumes.container_settings_id = $1
+`;
+
+const containerVolumesFromsByContainerIDQuery = `
+SELECT froms.id,
+       dc.name_prefix,
+       dc.read_only,
+       dc.container_images_id
+  FROM container_volumes_from froms
+  JOIN data_containers dc ON froms.data_containers_id = dc.id
+ WHERE froms.container_settings_id = $1
+`;
+
+const containerImageBase = `
 SELECT images.id,
        images.name,
        images.tag,
@@ -211,8 +237,17 @@ SELECT images.id,
        images.deprecated,
        images.osg_image_path
   FROM container_images images
+`;
+
+const containerImageByToolsIDQuery = `
+${containerImageBase}
   JOIN tools ON images.id = tools.container_images_id
  WHERE tools.id = $1
+`;
+
+const containerImageByIDQuery = `
+${containerImageBase}
+ WHERE images.id = $1
 `;
 
 // Adds '@iplantcollaborative.org' to the username if it's not already
@@ -383,6 +418,26 @@ class DEDatabase extends DataSource {
     async getContainerImageByToolID(tool_id) {
         const results = await queryDEDB(containerImageByToolsIDQuery, [tool_id]);
         return results.rows[0] || null;
+    }
+
+    async getContainerImageByID(image_id) {
+        const results = await queryDEDB(containerImageByIDQuery, [image_id]);
+        return results.rows[0] || null;
+    }
+
+    async getContainerDevicesByContainerID(container_settings_id) {
+        const results = await queryDEDB(containerDevicesByContainerIDQuery, [container_settings_id]);
+        return results.rows;
+    }
+
+    async getContainerVolumesByContainerID(container_settings_id) {
+        const results = await queryDEDB(containerVolumesByContainerIDQuery, [container_settings_id]);
+        return results.rows;
+    }
+
+    async getContainerVolumesFromsByContainerID(container_settings_id) {
+        const results = await queryDEDB(containerVolumesFromsByContainerIDQuery, [container_settings_id]);
+        return results.rows;
     }
 }
 

@@ -51,6 +51,9 @@ const toolType = gql`
         network_mode: String
         min_disk_space: BigInt
         pid_limit: Int
+        devices: [ContainerDevice]
+        volumes: [ContainerVolume]
+        volumes_froms: [ContainerVolumesFrom]
     }
 
     type ToolRequest {
