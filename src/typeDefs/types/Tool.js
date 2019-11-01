@@ -1,6 +1,32 @@
 const { gql } = require("apollo-server");
 
 const toolType = gql`
+    type ContainerDevice {
+        id: String
+        host_path: String
+        container_path: String
+    }
+
+    type ContainerPort {
+        id: String
+        host_port: String
+        container_port: String
+        bind_to_host: Boolean
+    }
+
+    type ContainerVolume {
+        id: String
+        host_path: String
+        container_path: String
+    }
+
+    type ContainerVolumesFrom {
+        id: String
+        name_prefix: String
+        read_only: Boolean
+        image: ContainerImage
+    }
+
     type ContainerImage {
         id: String
         name: String
@@ -23,7 +49,6 @@ const toolType = gql`
         memory_limit: BigInt
         cpu_shares: Int
         network_mode: String
-        image: ContainerImage
         min_disk_space: BigInt
         pid_limit: Int
     }
@@ -46,6 +71,7 @@ const toolType = gql`
         restricted: Boolean
         is_public: Boolean
         container: Container
+        container_image: ContainerImage
         attribution: String
         version: String
         tool_request: ToolRequest

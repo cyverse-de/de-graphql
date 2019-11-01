@@ -1,4 +1,5 @@
 const { RESTDataSource } = require('apollo-datasource-rest');
+const { _ } = require('lodash');
 
 class AppsService extends RESTDataSource {
     constructor() {

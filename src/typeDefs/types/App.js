@@ -66,6 +66,17 @@ const appType = gql`
         modified_by: User
     }
 
+    type AppStep {
+        id: String
+        step: Int
+        name: String
+        label: String
+        external_app_id: String
+        tool: Tool
+        type: String
+        system_id: String
+    }
+
     type App {
         id: String
 
@@ -101,6 +112,7 @@ const appType = gql`
         references: [AppReference]
         requirements: [AppRequirements]
         step_count: Int
+        steps: [AppStep]
         system_id: String
         wiki_url: String
     }

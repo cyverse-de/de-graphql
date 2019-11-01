@@ -95,7 +95,7 @@ const resolvers = {
         },
 
         steps: async (analysis, _args, { dataSources }) => {
-            return dataSources.appsService.getAnalysisSteps(analysis.username, analysis.id);
+            return dataSources.deDatabase.getAnalysisStepsByID(analysis.id);
         },
 
         parameters: async (analysis, _args, { dataSources }) => {
@@ -108,6 +108,18 @@ const resolvers = {
 
         avus: async (analysis, _args, { dataSources }) => {
             return dataSources.metadataDatabase.getAVUs('analysis', analysis.id);
+        },
+    },
+
+    AnalysisStep: {
+        updates: async (step, _args, { dataSources }) => {
+            return dataSources.deDatabase.getAnalysisStepUpdates(step.external_id);
+        },
+
+        app_step: async (step, _args, { dataSources }) => {
+            console.log(step);
+            // step.app_id comes from the database but isn't in the graphql schema. which is fine.
+            return dataSources.deDatabase.getAppStepByNumberAndAppID(step.app_step_number, step.app_id);
         },
     },
 
@@ -134,6 +146,16 @@ const resolvers = {
 
         comments: async (app, _args, { dataSources }) => {
             return dataSources.metadataDatabase.getComments('app', app.id);
+        },
+
+        steps: async (app, _args, { dataSources }) => {
+            return dataSources.deDatabase.getAppStepsByAppID(app.id);
+        },
+    },
+
+    AppStep: {
+        tool: async (app, _args, { dataSources }) => {
+
         },
     },
 
@@ -186,6 +208,16 @@ const resolvers = {
             return dataSources.metadataDatabase.getAttributeSettings(attr.id);
         },
     },
+
+    Tool: {
+        container: async (tool, _args, { dataSources }) => {
+            return dataSources.deDatabase.getContainerSettingsByToolID(tool.id);
+        },
+
+        container_image: async (tool, _args, { dataSources }) => {
+            return dataSources.deDatabase.getContainerImageByToolID(tool.id);
+        },
+    }
 };
 
 module.exports = {

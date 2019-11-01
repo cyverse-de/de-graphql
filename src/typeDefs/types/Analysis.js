@@ -21,6 +21,7 @@ const analysisType = gql`
         enddate: String
         status: String
         app_step_number: Int
+        app_step: AppStep
         step_type: String
         updates: [AnalysisStepUpdate]
     }
