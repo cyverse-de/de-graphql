@@ -30,8 +30,8 @@ const resolvers = {
     },
 
     AppStep: {
-        tool: async (app, _args, { dataSources }) => {
-
+        tool: async (step, _args, { dataSources }) => {
+            return dataSources.deDatabase.getToolByID(step.tool_id);
         },
     },
 

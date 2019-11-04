@@ -7,6 +7,26 @@ const resolvers = {
         container_image: async (tool, _args, { dataSources }) => {
             return dataSources.deDatabase.getContainerImageByToolID(tool.id);
         },
+
+        tool_requests: async (tool, _args, { dataSources }) => {
+            return dataSources.deDatabase.getToolRequests(tool.id);
+        },
+    },
+
+    ToolRequest: {
+        tool_architecture: async (request, _args, { dataSources }) => {
+            return dataSources.deDatabase.getToolArchitecture(request.tool_architecture_id);
+        },
+
+        statuses: async (request, _args, { dataSources }) => {
+            return dataSources.deDatabase.getToolRequestStatuses(request.id);
+        },
+    },
+
+    ToolRequestStatus: {
+        status_code: async (status, _args, { dataSources }) => {
+            return dataSources.deDatabase.getToolRequestStatusCode(status.tool_request_status_code_id);
+        },
     },
 
     Container: {

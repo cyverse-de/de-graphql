@@ -250,6 +250,88 @@ ${containerImageBase}
  WHERE images.id = $1
 `;
 
+const appStepsQuery = `
+SELECT s.id
+       s.step,
+       t.name,
+       t.label,
+       t.external_app_id,
+       t.tool_id,
+       j.type,
+       j.system_id
+  FROM app_steps s
+  JOIN tasks t ON s.task_id = t.id
+  JOIN job_types j ON t.job_type_id = j.id
+ WHERE s.app_id = $1
+`;
+
+const toolQuery = `
+SELECT t.id,
+       t.name,
+       t.description,
+       type.name AS type,
+       t.restricted,
+       t.attribution,
+       t.version,
+       t.location,
+       i.integrator_name,
+       i.integrator_email,
+       t.interactive,
+       t.time_limit_seconds
+  FROM tools t
+  JOIN tool_types type ON t.tool_type_id = type.id
+  JOIN integration_data i ON t.integration_data_id = i.id
+ WHERE t.id = $1
+`;
+
+const toolRequestQuery = `
+SELECT r.id,
+       r.phone,
+       r.tool_name,
+       r.description,
+       r.source_url,
+       r.doc_url,
+       r.version,
+       r.attribution,
+       r.multithreaded,
+       r.test_data_path,
+       r.instructions,
+       r.additional_info,
+       r.additional_data_file,
+       r.requestor_id,
+       r.tool_architecture_id,
+       r.tool_id
+  FROM tool_requests r
+ WHERE r.tool_id = $1
+`;
+
+const toolArchitectureQuery = `
+SELECT a.id,
+       a.name,
+       a.description
+  FROM tool_architectures a
+ WHERE a.id = $1
+`;
+
+const toolRequestStatusesQuery = `
+SELECT r.id,
+       r.date_assigned,
+       r.comments,
+       r.updater_id,
+       r.tool_request_status_code_id
+  FROM tool_request_statuses r
+ WHERE r.tool_request_id = $1
+`;
+
+const toolRequestStatusCodeQuery = `
+SELECT c.id,
+       c.name,
+       c.description,
+       c.email_template
+  FROM tool_request_status_codes c
+ WHERE c.id = $1
+`;
+
 // Adds '@iplantcollaborative.org' to the username if it's not already
 // present. The database uses <user>@iplantcollaborative.org, while
 // most of the services only need the <user> part.
@@ -439,6 +521,33 @@ class DEDatabase extends DataSource {
         const results = await queryDEDB(containerVolumesFromsByContainerIDQuery, [container_settings_id]);
         return results.rows;
     }
+
+    async getToolByID(tool_id) {
+        const results = await queryDEDB(toolQuery, [tool_id]);
+        return results.rows[0] || null;
+    }
+
+    async getToolRequests(tool_id) {
+        const results = await queryDEDB(toolRequestQuery, [tool_id]);
+        return results.rows;
+    }
+
+    async getToolArchitecture(arch_id) {
+        const results = await queryDEDB(toolArchitectureQuery, [arch_id]);
+        return results.rows[0] || null;
+    }
+
+    async getToolRequestStatuses(request_id) {
+        const results = await queryDEDB(toolRequestStatusesQuery, [request_id]);
+        return results.rows;
+    }
+
+    async getToolRequestStatusCode(code_id) {
+        const results = await queryDEDB(toolRequestStatusCodeQuery, [code_id]);
+        return results.rows[0] || null;
+    }
+
+
 }
 
 module.exports = {

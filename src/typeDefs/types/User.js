@@ -44,7 +44,7 @@ const userType = gql`
         webhooks: [Webhook]
 
         """The list of Apps that the user has access to."""
-        accessible_apps: [App]
+        apps: [App]
 
         """The list of Analyses associated with the user."""
         analyses: [Analysis]

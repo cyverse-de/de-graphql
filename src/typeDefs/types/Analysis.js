@@ -17,8 +17,8 @@ const analysisType = gql`
     type AnalysisStep {
         step_number: Int
         external_id: String
-        startdate: String
-        enddate: String
+        start_date: String
+        end_date: String
         status: String
         app_step_number: Int
         app_step: AppStep

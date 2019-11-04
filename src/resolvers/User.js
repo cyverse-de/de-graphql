@@ -20,7 +20,7 @@ const resolvers = {
             return dataSources.appsService.getUserWebhooks(user.username);
         },
 
-        accessible_apps: async (user, _args, { dataSources }) => {
+        apps: async (user, _args, { dataSources }) => {
             return dataSources.appsService.getAccessibleApps(user.username);
         },
 
