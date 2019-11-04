@@ -8,7 +8,7 @@ const {
     MetadataDatabase,
  } = require('./dataSources');
 const { typeDefs } = require('./typeDefs');
-const { resolvers } = require('./resolvers');
+const resolvers = require('./resolvers');
 
 const server = new ApolloServer({
     typeDefs,
