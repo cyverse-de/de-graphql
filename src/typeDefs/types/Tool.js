@@ -118,6 +118,7 @@ const toolType = gql`
         integrator_email: String
         interactive: Boolean
         time_limit_seconds: BigInt
+        gpu_enabled: Boolean
     }
 `;
 

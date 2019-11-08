@@ -11,6 +11,10 @@ const resolvers = {
         tool_requests: async (tool, _args, { dataSources }) => {
             return dataSources.deDatabase.getToolRequests(tool.id);
         },
+
+        gpu_enabled: async (tool, _args, { dataSources }) => {
+            return dataSources.deDatabase.getGPUEnabled(tool.id);
+        }
     },
 
     ToolRequest: {
