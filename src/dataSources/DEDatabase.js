@@ -1,5 +1,6 @@
 const { DataSource } = require('apollo-datasource');
 const { queryDEDB } = require('../database');
+const { _ } = require('lodash');
 
 // Common fields and joins for getting information about an analysis
 // from the database.
@@ -545,6 +546,23 @@ class DEDatabase extends DataSource {
     async getToolRequestStatusCode(code_id) {
         const results = await queryDEDB(toolRequestStatusCodeQuery, [code_id]);
         return results.rows[0] || null;
+    }
+
+    async getGPUEnabled(tool_id) {
+        const container_settings = await this.getContainerSettingsByToolID(tool_id);
+        if (container_settings === null) {
+            throw `no container_settings found for tool ID ${tool_id}`;
+        }
+        const container_devices = await this.getContainerDevicesByContainerID(container_settings.id);
+        if (container_devices === null) {
+            return false;
+        }
+        return _.reduce(
+            container_devices, 
+            (result, device) => result && device.host_path.startsWith('/dev/nvidia'),
+            false
+        );
+
     }
 
 
