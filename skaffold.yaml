@@ -2,13 +2,55 @@ apiVersion: skaffold/v1
 kind: Config
 metadata:
   name: de-graphql
+
 deploy:
   kubectl:
     manifests:
     - k8s/de-graphql.yml
+
 build:
   tagPolicy:
     gitCommit: {}
   artifacts:
   - image: discoenv/de-graphql
+    sync:
+      infer:
+      - 'src/**/*.js'
   local: {}
+
+portForward:
+- resourceType: Service
+  resourceName: apps
+  namespace: qa
+  port: 80
+  localPort: 9090
+
+- resourceType: Service
+  resourceName: user-info
+  namespace: qa
+  port: 80
+  localPort: 10000
+
+- resourceType: Service
+  resourceName: gateway
+  namespace: openfaas
+  port: 8080
+  localPort: 31112
+
+- resourceType: Service
+  resourceName: iplant-groups
+  namespace: qa
+  port: 80
+  localPort: 9095
+
+- resourceType: Service
+  resourceName: permissions
+  namespace: qa
+  port: 80
+  localPort: 9080
+
+- resourceType: Service
+  resourceName: metadata
+  namespace: qa
+  port: 80
+  localPort: 9085
