@@ -6,6 +6,8 @@ RUN chown graphql /home/graphql
 WORKDIR /home/graphql
 COPY . .
 
+RUN npm install -g nodemon
+
 USER graphql
 RUN npm install
 
@@ -14,5 +16,5 @@ ENV APPS_URL http://apps
 ENV USER_INFO_URL http://user-info
 
 EXPOSE 4000
-ENTRYPOINT ["node"]
+ENTRYPOINT ["nodemon"]
 CMD ["src/index.js"]

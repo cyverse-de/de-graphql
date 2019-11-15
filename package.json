@@ -18,5 +18,8 @@
     "graphql-type-json": "^0.3.0",
     "lodash": "^4.17.15",
     "pg": "^7.12.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.4"
   }
 }
